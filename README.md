@@ -5,11 +5,22 @@ This coding assignment consist of 3 parts. Each part is its own application and 
 ## Included functionality
 This repository contains functionality to support the execution of 4 applications and the database needed to run them. The apps included in this repository are:
 
-* `PostgreSQL DB instance` which will be run in a Docker container. For this database, a migration step is included so that the tables are created and ready to be used by the applications. Both `make migrate-up` and `make migrate-down` actions are available as Makefile commands.
+### PostgreSQL DB instance 
+PostgreSQL instance which will be run in a Docker container. For this database, a migration step is included so that the tables are created and ready to be used by the applications. Both `make migrate-up` and `make migrate-down` actions are available as Makefile commands.
 
-* `Telemetry Server`. This is provided in problem statement, it will transmit UDP packages at a cadence of 1 second and it is to be consumed by the Telemetry Ingest Service
+### Telemetry Server
+This is provided in problem statement, it will transmit UDP packages at a cadence of 1 second and it is to be consumed by the Telemetry Ingest Service
 
-* `Telemetry Ingestion Service` is an application that will consume the UDP packages sent by the Telemetry Server. This application will not only receive and parse the messages, but also store the package data into the PostgreSQL database.
+### Telemetry Ingestion Service
+Application that will consume the UDP packets sent by the Telemetry Server. This application will:
+* Listen for UDP packets containing spacecraft telemetry.
+* Decodes CCSDS-formatted packets according to provided structure
+* Validates telemetry values against defined ranges.
+* Persist data to a PostgreSQL database.
+* Implements an alerting mechanism for out-of-range values in 2 ways:
+  * Using Log-Based alerting, logging an `[ALERT]` level log message.
+  * Saving the entries in the DB and flagging the entries with anomalies.
+* The both alerting mechanisms can be used to produce alerts on dashboard tools like the ELK stack, Grafana or Prometheus
 
 ### Notes:
 * A very simplified structure has been used to create the Telemetry Ingestion Service.

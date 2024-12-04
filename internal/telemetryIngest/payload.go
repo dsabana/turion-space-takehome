@@ -70,22 +70,22 @@ func ParseTelemetryPacket(data []byte) (*TelemetryPacket, error) {
 func ValidatePacket(packet *TelemetryPacket) {
 	if packet.Payload.Temperature > 35 {
 		packet.HasAnomaly = true
-		log.Printf("[WARNING] temperature anomaly: [PacketSeqCtrl: %v] [Temperature: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Temperature)
+		log.Printf("[ALERT] temperature anomaly: [PacketSeqCtrl: %v] [Temperature: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Temperature)
 	}
 
 	if packet.Payload.Battery < 40 {
 		packet.HasAnomaly = true
-		log.Printf("[WARNING] battery anomaly: [PacketSeqCtrl: %v] [Battery: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Battery)
+		log.Printf("[ALERT] battery anomaly: [PacketSeqCtrl: %v] [Battery: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Battery)
 	}
 
 	if packet.Payload.Altitude < 400 {
 		packet.HasAnomaly = true
-		log.Printf("[WARNING] altitude anomaly: [PacketSeqCtrl: %v] [Altitude: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Altitude)
+		log.Printf("[ALERT] altitude anomaly: [PacketSeqCtrl: %v] [Altitude: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Altitude)
 	}
 
 	if packet.Payload.Signal < -80 {
 		packet.HasAnomaly = true
-		log.Printf("[WARNING] signal strength anomaly: [PacketSeqCtrl: %v] [Signal: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Signal)
+		log.Printf("[ALERT] signal strength anomaly: [PacketSeqCtrl: %v] [Signal: %v]", packet.PrimaryHeader.PacketSeqCtrl, packet.Payload.Signal)
 	}
 
 	if packet.HasAnomaly {

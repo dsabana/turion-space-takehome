@@ -46,7 +46,7 @@ func NewRepository(cfg ClientConfiguration) (*Repository, error) {
 
 // SavePacketEntry function used to store a packet to the DB
 func (r Repository) SavePacketEntry(packet *TelemetryPacket) {
-	_, err := r.DB.Queryx(insertTelemetryEntryQuery,
+	_, err := r.DB.Exec(insertTelemetryEntryQuery,
 		packet.PrimaryHeader.PacketID,
 		packet.PrimaryHeader.PacketSeqCtrl,
 		packet.PrimaryHeader.PacketLength,
