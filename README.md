@@ -20,7 +20,7 @@ Application that will consume the UDP packets sent by the Telemetry Server. This
 * Implements an alerting mechanism for out-of-range values in 2 ways:
   * Using Log-Based alerting, logging an `[ALERT]` level log message.
   * Saving the entries in the DB and flagging the entries with anomalies.
-* The both alerting mechanisms can be used to produce alerts on dashboard tools like the ELK stack, Grafana or Prometheus
+* Both alerting mechanisms can be used to produce alerts on dashboard tools like the ELK stack, Grafana or Prometheus
 
 ### Notes:
 * A very simplified structure has been used to create the Telemetry Ingestion Service.
