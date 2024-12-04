@@ -1,0 +1,360 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Telemetry API Service",
+    "version": "1.0",
+    "summary": "REST API that interacts with the Telemetry Data collected by the Telemetry Ingest System.",
+    "description": "REST API implemented in Golang that provides:\n\n- Historical telemetry queries with time range filtering\n- Aggregation endpoints (min, max, avg) over time periods\n- Current satellite status endpoint\n- Anomaly history endpoint",
+    "contact": {
+      "name": "Daniel Sabana",
+      "email": "daniel.e.sabana@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {
+    "/api/v1/telemetry": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Telemetry Data",
+        "tags": [
+          "Telemetry"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TelemetryDataListResponse"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "operationId": "get-telemetry",
+        "description": "Retrieve Telemetry Data in a given time period.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "start_time",
+            "description": "Start Time from where the data should be retrieved"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "end_time",
+            "description": "End Time until where the data should be retrieved"
+          }
+        ]
+      }
+    },
+    "/api/v1/telemetry/anomalies": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Telemetry Data Anomalies",
+        "tags": [
+          "Telemetry"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TelemetryDataListResponse"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "operationId": "get-telemetry-anomalies",
+        "description": "Retrieve Telemetry Data Anomalies in a given time period.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "start_time",
+            "description": "Start Time from where the data should be retrieved"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "end_time",
+            "description": "End Time until where the data should be retrieved"
+          }
+        ]
+      }
+    },
+    "/api/v1/telemetry/current": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Current Telemetry Data",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TelemetryDataResponse"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "operationId": "get-telemetry-current",
+        "description": "Retrieve the most current Telemetry Data.",
+        "parameters": [],
+        "tags": [
+          "Telemetry"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TelemetryPacket": {
+        "title": "TelemetryPacket",
+        "type": "object",
+        "description": "",
+        "examples": [
+          {
+            "primaryHeader": {
+              "packetId": 0,
+              "packetSeqCtrl": 0,
+              "packetLength": 0
+            },
+            "secondaryHeader": {
+              "timestamp": "2019-08-24T14:15:22Z",
+              "subsystemId": 0
+            },
+            "payload": {
+              "temperature": 0,
+              "battery": 0,
+              "altitude": 0,
+              "signal": 0
+            },
+            "hasAnomaly": true
+          }
+        ],
+        "properties": {
+          "primaryHeader": {
+            "$ref": "#/components/schemas/PrimaryHeader"
+          },
+          "secondaryHeader": {
+            "$ref": "#/components/schemas/SecondaryHeader"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/TelemetryPayload"
+          },
+          "hasAnomaly": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "primaryHeader",
+          "secondaryHeader",
+          "payload",
+          "hasAnomaly"
+        ]
+      },
+      "PrimaryHeader": {
+        "title": "PrimaryHeader",
+        "x-stoplight": {
+          "id": "q71kqmbiru9l4"
+        },
+        "type": "object",
+        "properties": {
+          "packetId": {
+            "type": "integer"
+          },
+          "packetSeqCtrl": {
+            "type": "integer"
+          },
+          "packetLength": {
+            "type": "integer"
+          }
+        },
+        "examples": [
+          {
+            "packetId": 0,
+            "packetSeqCtrl": 0,
+            "packetLength": 0
+          }
+        ]
+      },
+      "SecondaryHeader": {
+        "title": "SecondaryHeader",
+        "x-stoplight": {
+          "id": "sq70a7qxk0iru"
+        },
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "subsystemId": {
+            "type": "integer"
+          }
+        },
+        "examples": [
+          {
+            "timestamp": "2019-08-24T14:15:22Z",
+            "subsystemId": 0
+          }
+        ]
+      },
+      "TelemetryPayload": {
+        "title": "TelemetryPayload",
+        "x-stoplight": {
+          "id": "qqkln66dsw6al"
+        },
+        "type": "object",
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "battery": {
+            "type": "number",
+            "format": "double"
+          },
+          "altitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "signal": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "required": [
+          "temperature",
+          "battery",
+          "altitude",
+          "signal"
+        ],
+        "examples": [
+          {
+            "temperature": 0,
+            "battery": 0,
+            "altitude": 0,
+            "signal": 0
+          }
+        ]
+      }
+    },
+    "securitySchemes": {},
+    "responses": {
+      "TelemetryDataListResponse": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TelemetryPacket"
+              }
+            },
+            "examples": {
+              "Telemetry Data Response example": {
+                "value": [
+                  {
+                    "primaryHeader": {
+                      "packetId": 0,
+                      "packetSeqCtrl": 0,
+                      "packetLength": 0
+                    },
+                    "secondaryHeader": {
+                      "timestamp": "2019-08-24T14:15:22Z",
+                      "subsystemId": 0
+                    },
+                    "payload": {
+                      "temperature": 0,
+                      "battery": 0,
+                      "altitude": 0,
+                      "signal": 0
+                    },
+                    "hasAnomaly": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "TelemetryDataResponse": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelemetryPacket"
+            },
+            "examples": {
+              "Data response example": {
+                "value": {
+                  "primaryHeader": {
+                    "packetId": 0,
+                    "packetSeqCtrl": 0,
+                    "packetLength": 0
+                  },
+                  "secondaryHeader": {
+                    "timestamp": "2019-08-24T14:15:22Z",
+                    "subsystemId": 0
+                  },
+                  "payload": {
+                    "temperature": 0,
+                    "battery": 0,
+                    "altitude": 0,
+                    "signal": 0
+                  },
+                  "hasAnomaly": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {}
+          }
+        }
+      }
+    }
+  }
+}
