@@ -67,6 +67,7 @@ run-telemetry-api:
 build-telemetry-api:
 	go build -o telemetryApi ./cmd/telemetryApi
 
-.PHONY: test
-test:
-	go test ./...
+.PHONY: start-frontend
+start-frontend:
+	@echo ++++ Starting React Frontend
+	@npm --prefix ./frontend run dev

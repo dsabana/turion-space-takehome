@@ -46,12 +46,10 @@ curl "http://localhost:8080/api/v1/telemetry?start_time=2024-12-04T16:04:00&end_
 curl "http://localhost:8080/api/v1/telemetry/anomalies?start_time=2024-12-04T16:04:00&end_time=2024-12-04T16:05:00" | jq '.'
 ```
 
-### Running tests
-In order to run tests, please run this command:
-
-```shell
-make test
-```
+## Telemetry Frontend
+This is a simple React app that has 2 panels:
+* One showing the current Telemetry data that is updated in real time. This panel also turns orange when an anomaly is detected.
+* The bottom panel contains historical data. This data is fetched when the page is loaded, however, I added a button to `Refetch Data` so that we can get the latest data. I added a limit of 200 entries per request but this can be adjusted if needed.
 
 ### Notes:
 * A very simplified structure has been used to create the Telemetry Ingestion Service.
@@ -61,11 +59,11 @@ make test
 
 ## How to Run the Apps
 
-There are a couple of ways to run the applications. They can be executed locally as well as with the aid of docker-compose. We'll describe both ways below.
-
 ### Running the Apps Locally
 
 In order to run the apps locally, we have a Makefile available with the necessary commands to get up and going. Before running the applications, it is necessary to spin up a PostgreSQL container and migrate the initial tables. 
+
+### Note: It is recommended to run each app separate in a distinct terminal window
 
 * Spin up a PostgreSQL container. This will create the PG container, create the schema and migrate the tables. These steps are available to be run separately as `make pg`, `make pg-schema` and `make migrate-up`
   ```shell
@@ -85,4 +83,9 @@ In order to run the apps locally, we have a Makefile available with the necessar
 * Run the `Telemetry API`: This REST API retrieves the telemetry data collected by the Telemetry Ingestion Service.
   ```shell
   make run-telemetry-api
+  ```
+  
+* Run the `Telemetry Frontend`: This is the React app that displays the data retrieved from the Telemetry API
+  ```shell
+  make start-frontend
   ```

@@ -1,10 +1,10 @@
 import {ReactElement} from "react";
 import {TelemetryPacket} from "../types.ts";
 import axios from "axios";
-import {useQuery} from "react-query";
 import {CustomTable} from "./CustomTable.tsx";
 import {createColumnHelper} from "@tanstack/react-table";
 import {formatNumber} from "../utils.ts";
+import {useQuery} from "react-query";
 
 const fetchHistoricalData = async (): Promise<TelemetryPacket[]> => {
     const { data } = await axios.get<TelemetryPacket[]>(`http://localhost:8080/api/v1/telemetry`);

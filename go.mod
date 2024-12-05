@@ -1,6 +1,6 @@
 module github.com/dsabana/turion-space-takehome
 
-go 1.20
+go 1.23
 
 require (
 	github.com/getkin/kin-openapi v0.128.0

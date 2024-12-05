@@ -1,8 +1,8 @@
 import {ReactElement} from "react";
 import {TelemetryPacket} from "../types.ts";
 import axios from "axios";
-import {useQuery} from "react-query";
 import {formatNumber} from "../utils.ts";
+import { useQuery } from "react-query";
 
 const fetchCurrentData = async (): Promise<TelemetryPacket> => {
     const { data } = await axios.get<TelemetryPacket>(`http://localhost:8080/api/v1/telemetry/current`);
