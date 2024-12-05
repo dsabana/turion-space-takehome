@@ -58,3 +58,15 @@ run-ingestion-service:
 .PHONY: build-ingestion-service
 build-ingestion-service:
 	go build -o telemetryIngest ./cmd/telemetryIngest
+
+.PHONY: run-telemetry-api
+run-telemetry-api:
+	go run ./cmd/telemetryApi
+
+.PHONY: build-telemetry-api
+build-telemetry-api:
+	go build -o telemetryApi ./cmd/telemetryApi
+
+.PHONY: test
+test:
+	go test ./...

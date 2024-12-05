@@ -13,7 +13,16 @@ func GetTelemetry(s Service) http.HandlerFunc {
 		startTime := r.URL.Query().Get("start_time")
 		endTime := r.URL.Query().Get("end_time")
 
-		data, err := s.GetTelemetryData(r.Context(), startTime, endTime)
+		// Convert empty string to nil
+		var startTimePtr, endTimePtr *string
+		if startTime != "" {
+			startTimePtr = &startTime
+		}
+		if endTime != "" {
+			endTimePtr = &endTime
+		}
+
+		data, err := s.GetTelemetryData(r.Context(), startTimePtr, endTimePtr)
 		if err != nil {
 			generateErrorResponse(w, http.StatusInternalServerError, ErrRetrievingObject)
 		}
@@ -48,7 +57,16 @@ func GetAnomalyTelemetry(s Service) http.HandlerFunc {
 		startTime := r.URL.Query().Get("start_time")
 		endTime := r.URL.Query().Get("end_time")
 
-		data, err := s.GetTelemetryAnomaliesData(r.Context(), startTime, endTime)
+		// Convert empty string to nil
+		var startTimePtr, endTimePtr *string
+		if startTime != "" {
+			startTimePtr = &startTime
+		}
+		if endTime != "" {
+			endTimePtr = &endTime
+		}
+
+		data, err := s.GetTelemetryAnomaliesData(r.Context(), startTimePtr, endTimePtr)
 		if err != nil {
 			generateErrorResponse(w, http.StatusInternalServerError, ErrRetrievingObject)
 		}

@@ -313,28 +313,6 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/TelemetryPacket"
-            },
-            "examples": {
-              "Data response example": {
-                "value": {
-                  "primaryHeader": {
-                    "packetId": 0,
-                    "packetSeqCtrl": 0,
-                    "packetLength": 0
-                  },
-                  "secondaryHeader": {
-                    "timestamp": "2019-08-24T14:15:22Z",
-                    "subsystemId": 0
-                  },
-                  "payload": {
-                    "temperature": 0,
-                    "battery": 0,
-                    "altitude": 0,
-                    "signal": 0
-                  },
-                  "hasAnomaly": true
-                }
-              }
             }
           }
         }
@@ -356,5 +334,10 @@
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Telemetry"
+    }
+  ]
 }

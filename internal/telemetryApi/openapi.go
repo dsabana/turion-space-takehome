@@ -8,8 +8,6 @@ import (
 	"net/url"
 )
 
-// Schema contains the contents of this micro-service OpenAPI v3.1 schema as a []byte.
-//
 //go:embed openapi.json
 var Schema []byte
 

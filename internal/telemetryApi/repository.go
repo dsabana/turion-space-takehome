@@ -51,7 +51,7 @@ func NewStorage(cfg APIConfiguration) (*Storage, error) {
 	}, nil
 }
 
-func (s *Storage) RetrieveData(ctx context.Context, startTime string, endTime string) (*[]openapi.TelemetryPacket, error) {
+func (s *Storage) RetrieveData(ctx context.Context, startTime *string, endTime *string) (*[]openapi.TelemetryPacket, error) {
 	rows, err := s.DB.QueryxContext(ctx,
 		retrieveDataQuery,
 		startTime,
@@ -84,7 +84,7 @@ func (s *Storage) RetrieveCurrentData(ctx context.Context) (*openapi.TelemetryPa
 	return mapDBDataToOpenAPI(t), nil
 }
 
-func (s *Storage) RetrieveAnomaliesData(ctx context.Context, startTime string, endTime string) (*[]openapi.TelemetryPacket, error) {
+func (s *Storage) RetrieveAnomaliesData(ctx context.Context, startTime *string, endTime *string) (*[]openapi.TelemetryPacket, error) {
 	rows, err := s.DB.QueryxContext(ctx,
 		retrieveAnomaliesDataQuery,
 		startTime,
