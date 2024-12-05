@@ -63,7 +63,7 @@ This is a simple React app that has 2 panels:
 
 In order to run the apps locally, we have a Makefile available with the necessary commands to get up and going. Before running the applications, it is necessary to spin up a PostgreSQL container and migrate the initial tables. 
 
-### Note: It is recommended to run each app separate in a distinct terminal window
+### Note: It is recommended to run each app separate in a distinct terminal window. Golang 1.23 is needed to run the apps
 
 * Spin up a PostgreSQL container. This will create the PG container, create the schema and migrate the tables. These steps are available to be run separately as `make pg`, `make pg-schema` and `make migrate-up`
   ```shell
